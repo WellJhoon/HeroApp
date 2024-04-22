@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../../../auth/services/auth.service';
+import { User } from 'src/app/auth/interfaces/user.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-layout-page',
@@ -11,4 +14,15 @@ export class LayoutPageComponent {
     { label: 'Añadir', icon: 'add', url: './new-hero' },
     { label: 'Buscar', icon: 'search', url: './search' },
   ];
+
+  constructor(private AuthService: AuthService, private router: Router) {}
+
+  get User(): User | undefined {
+    return this.AuthService.currentUser;
+  }
+
+  onLogout() {
+    this.AuthService.logout();
+    this.router.navigate(['/auth/login']);
+  }
 }
